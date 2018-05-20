@@ -15,8 +15,8 @@ $myfile = file_put_contents('ajax_results.txt',$problemID."$%$".$IP."$%$".$date.
 
 $servername = "localhost";
 $username = "root";
-$password = "ubuntu";
-$dbname = "madmaker";
+$password = "";  //insert your database password
+$dbname = ""; //insert your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
