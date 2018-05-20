@@ -50,8 +50,10 @@ function storeInput() {
   }
 
   global.runSketch = function(callback) {
-    document.getElementById("output").innerHTML ="";
     state.default = code.value;
+    gradeIncoming();
+    storeInput();
+    document.getElementById("output").innerHTML ="";
     try {
       output.value = '';
       canvas = createCanvas();
@@ -63,16 +65,10 @@ function storeInput() {
         }
         sketch.onExit = callback;
         instance = new Processing(canvas, sketch);
-        gradeIncoming();
-        storeInput();
       } else {
         instance = new Processing(canvas, sketch);
-        gradeIncoming();
-        storeInput();
       }
     } catch (e) {
-     gradeIncoming(code.value);
-     storeInput(state.default, state.selectedChoice);
      var value = "Error:\n" + e.toString();
      document.getElementById("output").innerHTML ="<br><br>" + value + "<br>";
    }
@@ -91,18 +87,21 @@ function gradeIncoming(){
   var i;
   var j=0;
   var s = [];
-  // split incoming code into lines & iterate through them
-  var lines =  code.value.split("\n");
+  var lines =  state.default.split("\n");
   for (i = 0; i < lines.length; i++) {
     // check if the text function has been called, do checks.
     var test = lines[i].search("text");
     if (test != -1){
       var test1 = lines[i].split("\"");
-      //for (j = test; j < lines[i].length-; j++) {
-      //s[j-test] = lines[i][j+6];
       if ((test1[1] == "i'm a coder") || (test1[1] == "I'm a coder") || (test1[1] == "i'm a coder!") || (test1[1] == "I'm a coder!") || (test1[1] == "i'm a coder.") || (test1[1] == "I'm a coder.")){
         state.selectedChoice = "correct";
       }
+      else {
+        state.selectedChoice = "incorrect";
+      }	
+    }
+    else{
+      state.selectedChoice = "incorrect";
     }
   }
 }
